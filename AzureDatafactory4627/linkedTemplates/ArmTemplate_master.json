@@ -1,0 +1,111 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "AzureDatafactory4627"
+		},
+		"ls_ADLSConnection_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_ADLSConnection'"
+		},
+		"ls_SQLConnection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_SQLConnection'"
+		},
+		"ls_blobconnection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_blobconnection'"
+		},
+		"ls_ADLSConnection_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adfl200newadls.dfs.core.windows.net/"
+		},
+		"ls_HTTPConnection_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().baseURL}"
+		},
+		"EventTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/0b09d9a2-10b0-4bdb-966c-fa3ebfa3ba0a/resourceGroups/NewAzureresourceGroup01/providers/Microsoft.Storage/storageAccounts/adfl200newsa"
+		},
+		"ScheduledTrigger_properties_pl_copyfiles_parameters_SourceFilename": {
+			"type": "string",
+			"defaultValue": "Sales_Derive.csv"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "AzureDatafactory4627_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_ADLSConnection_accountKey": {
+						"value": "[parameters('ls_ADLSConnection_accountKey')]"
+					},
+					"ls_SQLConnection_connectionString": {
+						"value": "[parameters('ls_SQLConnection_connectionString')]"
+					},
+					"ls_blobconnection_connectionString": {
+						"value": "[parameters('ls_blobconnection_connectionString')]"
+					},
+					"ls_ADLSConnection_properties_typeProperties_url": {
+						"value": "[parameters('ls_ADLSConnection_properties_typeProperties_url')]"
+					},
+					"ls_HTTPConnection_properties_typeProperties_url": {
+						"value": "[parameters('ls_HTTPConnection_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "AzureDatafactory4627_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"EventTrigger_properties_typeProperties_scope": {
+						"value": "[parameters('EventTrigger_properties_typeProperties_scope')]"
+					},
+					"ScheduledTrigger_properties_pl_copyfiles_parameters_SourceFilename": {
+						"value": "[parameters('ScheduledTrigger_properties_pl_copyfiles_parameters_SourceFilename')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'AzureDatafactory4627_ArmTemplate_0')]"
+			]
+		}
+	]
+}
