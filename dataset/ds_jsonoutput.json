@@ -1,0 +1,29 @@
+{
+	"name": "ds_jsonoutput",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_ADLSConnection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Sinkjsonfiles": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().Sinkjsonfiles",
+					"type": "Expression"
+				},
+				"folderPath": "jsonfiles",
+				"fileSystem": "output"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

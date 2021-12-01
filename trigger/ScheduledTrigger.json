@@ -1,0 +1,33 @@
+{
+	"name": "ScheduledTrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_BLOB_TO_ADLS",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "pl_copyfiles",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"SourceFilename": "Sales_Derive.csv"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 3,
+				"startTime": "2021-11-17T02:30:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

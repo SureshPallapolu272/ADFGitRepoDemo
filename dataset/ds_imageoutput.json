@@ -1,0 +1,28 @@
+{
+	"name": "ds_imageoutput",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_ADLSConnection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sinkimagefiles": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().sinkimagefiles",
+					"type": "Expression"
+				},
+				"folderPath": "imagefiles",
+				"fileSystem": "output"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
